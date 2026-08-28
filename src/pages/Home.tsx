@@ -3,6 +3,7 @@ import { Autoplay } from 'swiper/modules';
 import 'swiper/css'
 import 'swiper/css/navigation'
 
+import { NavLink } from "react-router"
 import { useDispatch, useSelector } from "react-redux"
 import IphoneModel from "../components/3DModels/IphoneModel"
 import PrimaryButton from "../components/ui/PrimaryButton"
@@ -29,7 +30,7 @@ export default function Home() {
     dispatch(getProducts({pageNumber: 1, pageSize: 10}))
     dispatch(getCategories())
   }, [])
-  console.log(catalogStore.categories)
+  console.log(productsStore)
 
   return (
     <>
@@ -77,7 +78,7 @@ export default function Home() {
 
       <section className="flex flex-col gap-10 max-w-300 m-auto py-10">
         <h1 className="text-5xl font-bold">Flash Sales</h1>
-        {productsStore.isLoading ? <SceletonLoader/> : (
+        {productsStore.loadings.loadingProducts ? <SceletonLoader/> : (
           <Swiper
             modules={[Autoplay]}
             spaceBetween={20}
@@ -97,7 +98,9 @@ export default function Home() {
           </Swiper>
         )}
         <div className='flex justify-center w-full'>
-          <PrimaryButton text="View All Products"/>
+          <NavLink to="/catalog">
+            <PrimaryButton text="View All Products"/>
+          </NavLink>
         </div>
       </section>
 
@@ -111,7 +114,7 @@ export default function Home() {
           >
             {
               catalogStore.categories?.map((category:ICategory) => (
-                <SwiperSlide>
+                <SwiperSlide key={category.id}>
                   <CategoryCard category={category}/>
                 </SwiperSlide>
               ))
@@ -123,9 +126,11 @@ export default function Home() {
       <section className='flex flex-col gap-10 max-w-300 m-auto py-10'>
         <div className='flex justify-between w-full items-center'>
           <h1 className='text-4xl font-bold'>Best Selling Products</h1>
-          <PrimaryButton text='View All'/>
+          <NavLink to="/catalog">
+            <PrimaryButton text='View All'/>
+          </NavLink>
         </div>
-        {productsStore.isLoading ? <SceletonLoader/> : (
+        {productsStore.loadings.loadingProducts ? <SceletonLoader/> : (
           <Swiper
             modules={[Autoplay]}
             autoplay={{
@@ -138,7 +143,7 @@ export default function Home() {
           >
             {
               productsStore.dataProduct?.slice(2, 11).map((product:IProduct) => (
-                <SwiperSlide>
+                <SwiperSlide key={product.id}>
                   <ProductCard product={product}/>
                 </SwiperSlide>
               ))
@@ -172,20 +177,6 @@ export default function Home() {
           </Button>
         </div>
         <img className='drop-shadow-[0_0_35px_#ffffff]' src={boombox} alt="" />
-      </section>
-
-      <section className='flex flex-col gap-10 py-10 max-w-300 m-auto'>
-        <h1 className='text-4xl font-bold'>Explore Our Products</h1>
-        <div className='flex flex-wrap gap-5'>
-          {
-            productsStore.dataProduct?.slice(0, 8).map((product:IProduct) => (
-              <ProductCard product={product}/>
-            ))
-          }
-        </div>
-        <div className='flex justify-center'>
-          <PrimaryButton text='View All Products'/>
-        </div>
       </section>
     </>
   )

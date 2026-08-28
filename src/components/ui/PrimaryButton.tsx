@@ -1,8 +1,7 @@
-import { Button } from "@mui/material";
+import { Button, type ButtonProps } from "@mui/material";
 
-
-interface Props{
-    text:string,
+interface Props extends ButtonProps {
+    text: string;
 }
 
 export default function PrimaryButton({text, ...props}:Props) {

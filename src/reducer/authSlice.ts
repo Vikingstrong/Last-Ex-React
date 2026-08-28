@@ -19,7 +19,7 @@ const initialState:typesInitial = {
     regStatus: false
 }
 
-export const regUserReq = createAsyncThunk('auth/regUserReq', async(user) => {
+export const regUserReq = createAsyncThunk('auth/regUserReq', async(user: any) => {
     try {
         const resp = await axiosInstance.post('/Account/register', user)
         console.log(resp)
@@ -28,12 +28,12 @@ export const regUserReq = createAsyncThunk('auth/regUserReq', async(user) => {
         console.error(error)
     }
 })
-export const loginUserReq = createAsyncThunk('auth/loginUserReq', async(user) => {
+export const loginUserReq = createAsyncThunk('auth/loginUserReq', async(user: any) => {
     try {
         const resp = await axiosInstance.post('/Account/login', user)
         return resp.data
     } catch (error) {
-        
+        console.error(error)
     }
 })
 

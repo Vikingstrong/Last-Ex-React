@@ -1,18 +1,13 @@
-import { Outlet, useNavigate } from "react-router";
+import { Outlet } from "react-router";
 import Header from "../components/Widgets/Header";
-import { useEffect } from "react";
-
-
-
+import Footer from "../components/Widgets/Footer";
 
 export default function Layout() {
-    const token = localStorage.getItem('token')
-    const navigate = useNavigate()
-
     return(
         <>
             <Header/>
             <Outlet/>
+            <Footer/>
         </>
     )
 }
