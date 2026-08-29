@@ -12,6 +12,7 @@ const ProfilePg = lazy(() => import('./pages/Profile'))
 const RegisterPg = lazy(() => import('./pages/Auth/Register'))
 const LoginPg = lazy(() => import('./pages/Auth/Login'))
 
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -60,7 +61,7 @@ const router = createBrowserRouter([
       {
         path: 'login',
         element: <LoginPg/>
-      }
+      },
     ]
   }
 ])

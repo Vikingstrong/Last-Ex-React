@@ -1,16 +1,16 @@
-import { TextField } from "@mui/material"
-import { useForm } from "react-hook-form"
-import { NavLink, useNavigate } from "react-router"
-
-import googlePng from "../../assets/auth/google.png"
-import { loginUserReq } from "../../reducer/authSlice"
 import { useDispatch, useSelector } from "react-redux"
-import { type AppDispatch, type RootState } from "../../store/store"
-import { useEffect } from "react"
+import { NavLink, useNavigate } from "react-router"
+import type { AppDispatch, RootState } from "../../store/store"
+import { useForm } from "react-hook-form"
+import { TextField } from "@mui/material"
+import googlePng from "../../assets/auth/google.png"
 
 
-export default function Login() {
-    let token = localStorage.getItem('token')
+
+
+export default function AdminLogin() {
+
+    const token = localStorage.getItem('token')
 
     const authData = useSelector((store:RootState) => store.auth)
     const dispatch = useDispatch<AppDispatch>()
@@ -25,19 +25,16 @@ export default function Login() {
             password: ''
         }
     })
-    
 
-    const submit = async(data:any) => {
-        dispatch(loginUserReq(data))
+    const submit = () => {
+
     }
 
-    if(token == undefined) token = null
-    useEffect(() => {
-        if(Boolean(token) && token != undefined) navigate('/')
-    },[token])
+    if(Boolean(token)){
+        navigate("/")
+    }
     return(
         <>
-
             <div className="flex flex-col gap-10 p-5 lg:px-0 py-10 lg:py-25 max-w-300 m-auto items-center">
                 <div className="flex flex-col gap-3">
                     {
@@ -62,8 +59,10 @@ export default function Login() {
                     <p>Not Have account?</p>
                     <NavLink className="font-semibold border-b" to='/register'>Sign Up</NavLink>
                 </div>
+                <div className="flex justify-center items-center">
+                    <NavLink to="/login" className="text-xl font-semibold">User Login</NavLink>
+                </div>
             </div>
-
         </>
     )
 }

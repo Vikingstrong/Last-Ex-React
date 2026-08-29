@@ -14,10 +14,7 @@ export default function ProductCard({ product }: Props) {
       ? Math.round(((product.price - product.discountPrice) / product.price) * 100)
       : null;
 
-  // Derive rating review count from product id/quantity for realistic display
   const reviewCount = product.quantity
-    ? product.quantity * 3 + 12
-    : (product.id * 13) % 90 + 10;
   const isNew = !product.hasDiscount && product.id % 3 === 0;
 
   const handleProductClick = () => {
@@ -30,9 +27,7 @@ export default function ProductCard({ product }: Props) {
       onClick={handleProductClick}
       className="flex flex-col w-full group select-none cursor-pointer"
     >
-      {/* Image Container with Badges and Actions */}
       <div className="relative bg-[#F5F5F5] rounded-sm flex items-center justify-center h-64 overflow-hidden">
-        {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
           {discountPercent ? (
             <span className="bg-[#DB4444] text-white text-xs font-semibold px-2.5 py-1 rounded">
@@ -45,7 +40,6 @@ export default function ProductCard({ product }: Props) {
           ) : null}
         </div>
 
-        {/* Quick Action Buttons */}
         <div
           className="absolute top-3 right-3 flex flex-col gap-2 z-10"
           onClick={(e) => e.stopPropagation()}
@@ -66,7 +60,6 @@ export default function ProductCard({ product }: Props) {
           </button>
         </div>
 
-        {/* Product Image - Full size without shrink or hover zoom */}
         <img
           className="w-full h-full object-cover"
           src={`https://store-api.softclub.tj/images/${product.image || product.images?.[0]?.images || ""}`}
@@ -76,12 +69,10 @@ export default function ProductCard({ product }: Props) {
           }}
         />
 
-        {/* Slide-up "Add To Cart" button */}
         <button
           type="button"
           onClick={(e) => {
             e.stopPropagation();
-            alert(`Added ${product.productName} to cart!`);
           }}
           className="absolute bottom-0 left-0 right-0 bg-black text-white text-center py-2.5 font-medium text-sm translate-y-full group-hover:translate-y-0 transition-transform duration-300 cursor-pointer hover:bg-gray-900"
         >

@@ -44,11 +44,8 @@ export default function Header() {
                 <div className='flex gap-4 items-center'>
                     <div className="relative">
                         <Heart className='cursor-pointer w-6 h-6 hover:text-[#DB4444] transition'/>
-                        <span className="absolute -top-1.5 -right-2 bg-[#DB4444] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
-                            0
-                        </span>
+                        <span className="absolute -top-1.5 -right-2 bg-[#DB4444] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
                     </div>
-
                     <div className="relative">
                         <ShoppingCart className='cursor-pointer w-6 h-6 hover:text-[#DB4444] transition'/>
                         <span className="absolute -top-1.5 -right-2 bg-[#DB4444] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
@@ -56,20 +53,23 @@ export default function Header() {
                         </span>
                     </div>
 
-                    {/* User Profile Icon with Click Dropdown */}
                     <div className="relative">
-                        <div 
-                            onClick={() => setDropdownOpen((prev) => !prev)}
-                            className={`p-1.5 rounded-full cursor-pointer transition-colors duration-200 ${
-                                dropdownOpen 
-                                    ? "bg-[#DB4444] text-white" 
-                                    : "hover:bg-gray-100 text-gray-900"
-                            }`}
-                        >
-                            <User className='w-5 h-5'/>
-                        </div>
+                    {
+                        token ? 
+                            (<div 
+                                onClick={() => setDropdownOpen((prev) => !prev)}
+                                className={`p-1.5 rounded-full cursor-pointer transition-colors duration-200 ${
+                                    dropdownOpen 
+                                        ? "bg-[#DB4444] text-white" 
+                                        : "hover:bg-gray-100 text-gray-900"
+                                }`}
+                            >
+                                <User className='w-5 h-5'/>
+                            </div> 
+                        ) : "" 
+                    }
 
-                        {/* Frosted Dropdown Menu */}
+
                         {dropdownOpen && (
                             <div className="absolute right-0 top-full mt-2 w-56 bg-black/80 backdrop-blur-md text-white rounded-md p-4 shadow-2xl flex flex-col gap-3 z-50 border border-white/10 animate-in fade-in slide-in-from-top-2 duration-200">
                                 <NavLink 

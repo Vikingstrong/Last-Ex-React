@@ -41,7 +41,6 @@ export default function ProductDetails() {
   const [selectedSize, setSelectedSize] = useState<string>("M");
   const [selectedColor, setSelectedColor] = useState<string>("default");
 
-  // Whenever ID changes, scroll to top and fetch fresh product data from server
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -54,17 +53,17 @@ export default function ProductDetails() {
     }
   }, [id, dispatch]);
 
-  // Sync active product from backend response
+  
   const activeProduct = productsStore.productById || localProduct;
 
-  // Extract all available images (from images array or image string)
+  
   const imagesList: string[] = activeProduct?.images && activeProduct.images.length > 0
     ? activeProduct.images.map((img) => img.images)
     : activeProduct?.image
     ? [activeProduct.image]
     : [];
 
-  // Provide 4 thumbnails for UI layout matching design
+    
   const displayThumbnails = imagesList.length > 0
     ? Array.from({ length: 4 }).map((_, i) => imagesList[i % imagesList.length])
     : [];
@@ -86,7 +85,7 @@ export default function ProductDetails() {
 
   return (
     <main className="max-w-300 m-auto px-5 lg:px-0 py-8 flex flex-col gap-16 min-h-screen">
-      {/* 1. Breadcrumbs */}
+      
       <div className="flex items-center gap-2 text-sm text-gray-500">
         <NavLink to="/profile" className="hover:text-black transition">
           Account
@@ -101,10 +100,9 @@ export default function ProductDetails() {
         </span>
       </div>
 
-      {/* 2. Product Details Top Grid with Skeleton Loader */}
+
       {productsStore.loadings.loadingProductById ? (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start animate-pulse">
-          {/* Left Thumbnails Skeleton */}
           <div className="lg:col-span-2 flex lg:flex-col gap-4 order-2 lg:order-1">
             {[1, 2, 3, 4].map((i) => (
               <Skeleton
@@ -118,7 +116,6 @@ export default function ProductDetails() {
             ))}
           </div>
 
-          {/* Center Main Image Skeleton */}
           <div className="lg:col-span-5 h-[450px] lg:h-[500px] order-1 lg:order-2">
             <Skeleton
               variant="rectangular"
@@ -129,7 +126,6 @@ export default function ProductDetails() {
             />
           </div>
 
-          {/* Right Info Details Skeleton */}
           <div className="lg:col-span-5 flex flex-col gap-4 order-3">
             <Skeleton variant="text" width="80%" height={40} animation="wave" />
             <Skeleton variant="text" width="45%" height={24} animation="wave" />
@@ -142,17 +138,12 @@ export default function ProductDetails() {
         </div>
       ) : activeProduct ? (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start animate-in fade-in duration-300">
-          {/* Left Vertical Thumbnails */}
           <div className="lg:col-span-2 flex lg:flex-col gap-4 order-2 lg:order-1 overflow-x-auto lg:overflow-visible">
             {displayThumbnails.map((thumbImg, thumbIdx) => (
               <div
                 key={thumbIdx}
                 onClick={() => setSelectedImage(thumbImg)}
-                className={`bg-[#F5F5F5] rounded p-3 h-28 w-28 shrink-0 flex items-center justify-center cursor-pointer border transition-all ${
-                  mainImage === thumbImg
-                    ? "border-[#DB4444]"
-                    : "border-transparent hover:border-gray-300"
-                }`}
+                className={`bg-[#F5F5F5] rounded p-3 h-28 w-28 shrink-0 flex items-center justify-center cursor-pointer transition-all`}
               >
                 <img
                   src={`https://store-api.softclub.tj/images/${thumbImg}`}
@@ -166,7 +157,6 @@ export default function ProductDetails() {
             ))}
           </div>
 
-          {/* Center Main Product Image */}
           <div className="lg:col-span-5 bg-[#F5F5F5] rounded flex items-center justify-center p-8 h-[450px] lg:h-[500px] order-1 lg:order-2">
             <img
               src={`https://store-api.softclub.tj/images/${mainImage}`}
@@ -178,13 +168,12 @@ export default function ProductDetails() {
             />
           </div>
 
-          {/* Right Info Column */}
           <div className="lg:col-span-5 flex flex-col gap-4 order-3">
             <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">
               {activeProduct.productName}
             </h1>
 
-            {/* Rating & Stock */}
+
             <div className="flex items-center gap-3 text-sm">
               <div className="flex items-center text-[#FFAD33]">
                 <Star className="w-4 h-4 fill-[#FFAD33]" />
@@ -212,12 +201,12 @@ export default function ProductDetails() {
               )}
             </div>
 
-            {/* Short Description */}
+
             <p className="text-sm text-gray-700 leading-relaxed border-b border-gray-200 pb-4">
               {activeProduct.description || "PlayStation 5 Controller Skin High quality vinyl with air channel adhesive for easy bubble free install & mess free removal Pressure sensitive."}
             </p>
 
-            {/* Colours Selector */}
+
             <div className="flex items-center gap-4 pt-1">
               <span className="text-sm font-medium text-gray-900">Colours:</span>
               <div className="flex items-center gap-2">
@@ -236,7 +225,7 @@ export default function ProductDetails() {
               </div>
             </div>
 
-            {/* Size Selector */}
+
             <div className="flex items-center gap-4 pt-1">
               <span className="text-sm font-medium text-gray-900">Size:</span>
               <div className="flex items-center gap-2">
@@ -257,13 +246,11 @@ export default function ProductDetails() {
               </div>
             </div>
 
-            {/* Quantity & Buy Now Actions */}
+
             <div className="flex items-center gap-4 pt-2">
-              {/* Quantity Stepper */}
               <div className="flex items-center border border-gray-300 rounded overflow-hidden">
                 <button
                   type="button"
-                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                   className="px-3 py-2 text-gray-700 hover:bg-gray-100 transition cursor-pointer"
                 >
                   <Minus className="w-4 h-4" />
@@ -280,16 +267,15 @@ export default function ProductDetails() {
                 </button>
               </div>
 
-              {/* Buy Now Button */}
+
               <button
                 type="button"
-                onClick={() => alert(`Purchased ${quantity}x ${activeProduct.productName}!`)}
                 className="flex-1 bg-[#DB4444] text-white py-2.5 px-6 rounded font-semibold text-sm hover:bg-[#c0392b] transition cursor-pointer"
               >
                 Buy Now
               </button>
 
-              {/* Wishlist Button */}
+
               <button
                 type="button"
                 className="p-2.5 border border-gray-300 rounded hover:text-[#DB4444] hover:border-[#DB4444] text-gray-700 transition cursor-pointer"
@@ -298,9 +284,8 @@ export default function ProductDetails() {
               </button>
             </div>
 
-            {/* Delivery & Returns Info Card */}
+
             <div className="border border-gray-300 rounded-sm p-4 flex flex-col gap-4 mt-4 select-none">
-              {/* Row 1: Free Delivery */}
               <div className="flex items-start gap-4">
                 <Truck className="w-7 h-7 text-gray-900 shrink-0 mt-0.5" />
                 <div className="flex flex-col">

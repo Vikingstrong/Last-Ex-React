@@ -25,7 +25,7 @@ export const regUserReq = createAsyncThunk('auth/regUserReq', async(user: any) =
         console.log(resp)
         return resp.data
     } catch (error) {
-        console.error(error)
+        return error
     }
 })
 export const loginUserReq = createAsyncThunk('auth/loginUserReq', async(user: any) => {
@@ -33,7 +33,7 @@ export const loginUserReq = createAsyncThunk('auth/loginUserReq', async(user: an
         const resp = await axiosInstance.post('/Account/login', user)
         return resp.data
     } catch (error) {
-        console.error(error)
+        return error
     }
 })
 

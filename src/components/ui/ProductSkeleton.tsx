@@ -9,7 +9,6 @@ export default function ProductSkeleton({ count = 6 }: Props) {
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
       {Array.from({ length: count }).map((_, index) => (
         <div key={index} className="flex flex-col w-full gap-2">
-          {/* Image skeleton */}
           <Skeleton
             variant="rectangular"
             width="100%"
@@ -18,7 +17,7 @@ export default function ProductSkeleton({ count = 6 }: Props) {
             sx={{ borderRadius: 1, backgroundColor: "#F5F5F5" }}
           />
 
-          {/* Title skeleton */}
+
           <Skeleton
             variant="text"
             width="75%"

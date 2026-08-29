@@ -10,7 +10,7 @@ import { loginUserReq, regUserReq } from "../../reducer/authSlice";
 import { useEffect, useState } from "react";
 
 export default function Register() {
-    const token = localStorage.getItem('token')
+    let token = localStorage.getItem('token')
 
     const authData = useSelector((store:RootState) => store.auth)
     const dispatch = useDispatch<AppDispatch>()
@@ -29,21 +29,18 @@ export default function Register() {
             confirmPassword: '',
         }
     })
-    const [loginData, setLoginData] = useState({userName: '', password: ''})
 
     const submit = async(data:any) => {
-        setLoginData({userName: data.userName, password: data.password})
+        const loginData = {userName: data.userName, password: data.password}
+        
         dispatch(regUserReq(data))
-        console.log('send')
+        dispatch(loginUserReq(loginData))
     }
+
+    if(token == undefined) token = null
     useEffect(() => {
-        if(authData.regStatus){
-            dispatch(loginUserReq(loginData))
-        }
-    }, [authData.regStatus])
-    
-    useEffect(() => {
-        if(Boolean(token)) navigate('/')
+        if(Boolean(token) && token != undefined) navigate('/')
+        
     },[token])
     return(
         <>
