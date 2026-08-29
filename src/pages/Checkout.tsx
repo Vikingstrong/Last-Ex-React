@@ -123,7 +123,7 @@ export default function Checkout() {
     }
 
     return (
-        <main className="max-w-300 m-auto px-5 lg:px-0 py-10 flex flex-col gap-12 min-h-screen">
+        <main className="max-w-300 m-auto px-4 lg:px-0 py-8 pb-24 lg:pb-12 flex flex-col gap-12 min-h-screen">
             {/* Breadcrumb Navigation */}
             <div className="flex items-center gap-2 text-sm text-gray-500">
                 <NavLink to="/profile" className="hover:text-black transition">

@@ -87,7 +87,7 @@ export default function ProductDetails() {
   const sizes = ["XS", "S", "M", "L", "XL"];
 
   return (
-    <main className="max-w-300 m-auto px-5 lg:px-0 py-8 flex flex-col gap-16 min-h-screen">
+    <main className="max-w-300 m-auto px-5 lg:px-0 py-8 pb-24 lg:pb-12 flex flex-col gap-16 min-h-screen">
       
       <div className="flex items-center gap-2 text-sm text-gray-500">
         <NavLink to="/profile" className="hover:text-black transition">
@@ -160,7 +160,7 @@ export default function ProductDetails() {
             ))}
           </div>
 
-          <div className="lg:col-span-5 bg-[#F5F5F5] rounded flex items-center justify-center p-8 h-[450px] lg:h-[500px] order-1 lg:order-2">
+          <div className="lg:col-span-5 bg-[#F5F5F5] rounded-xl flex items-center justify-center p-4 sm:p-8 h-[280px] sm:h-[420px] lg:h-[500px] order-1 lg:order-2">
             <img
               src={`https://store-api.softclub.tj/images/${mainImage}`}
               alt={activeProduct.productName}

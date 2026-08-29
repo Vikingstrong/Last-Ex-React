@@ -21,8 +21,8 @@ function Model(props:any){
 
 export default function MacBookModel() {
     return (
-        <div className='w-1/2 h-100'>
-            <Canvas camera={{ position: [0, 0, 3], fov: 50 }}>
+        <div className='w-full h-full max-w-full min-w-0 overflow-hidden flex items-center justify-center'>
+            <Canvas camera={{ position: [0, 0, 3], fov: 50 }} className="w-full h-full">
                 <Stage environment="city" intensity={1}>
                     <Model scale={1}/>
                 </Stage>

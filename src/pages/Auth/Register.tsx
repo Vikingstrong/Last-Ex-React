@@ -86,12 +86,12 @@ export default function Register() {
                     <h1 className="text-2xl lg:text-5xl font-medium">{t('auth.createAccount')}</h1>
                     <p>{t('auth.enterDetails')}</p>
                 </div>
-                <form onSubmit={handleSubmit(submit)} className="flex flex-col gap-5">
-                    <TextField {...register("userName")} required sx={{ width: 400 }} label={t('auth.name')} />
-                    <TextField {...register("phoneNumber")} required sx={{ width: 400 }} label={t('profile.phoneNumber')} />
-                    <TextField {...register("email")} type="email" required sx={{ width: 400 }} label={t('profile.email')} />
-                    <TextField {...register("password")} type="password" required sx={{ width: 400 }} label={t('auth.password')} />
-                    <TextField {...register("confirmPassword")} type="password" required sx={{ width: 400 }} label={t('auth.confirmPassword')} />
+                <form onSubmit={handleSubmit(submit)} className="flex flex-col gap-5 w-full max-w-sm sm:max-w-md">
+                    <TextField {...register("userName")} required sx={{ width: '100%' }} label={t('auth.name')} />
+                    <TextField {...register("phoneNumber")} required sx={{ width: '100%' }} label={t('profile.phoneNumber')} />
+                    <TextField {...register("email")} type="email" required sx={{ width: '100%' }} label={t('profile.email')} />
+                    <TextField {...register("password")} type="password" required sx={{ width: '100%' }} label={t('auth.password')} />
+                    <TextField {...register("confirmPassword")} type="password" required sx={{ width: '100%' }} label={t('auth.confirmPassword')} />
                     <button 
                         type="submit" 
                         disabled={authData.isLoading}

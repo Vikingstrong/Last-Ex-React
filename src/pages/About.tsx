@@ -71,7 +71,7 @@ export default function About() {
   ];
 
   return (
-    <main className="max-w-300 m-auto px-5 lg:px-0 py-8 flex flex-col gap-24">
+    <main className="max-w-300 m-auto px-4 lg:px-0 py-8 pb-24 lg:pb-12 flex flex-col gap-16 lg:gap-24">
       {/* 1. Breadcrumb */}
       <div className="flex items-center gap-2 text-sm text-gray-500">
         <NavLink to="/" className="hover:text-black transition">

@@ -77,8 +77,8 @@ export default function Profile() {
     : (userStore.data?.getUserInfo?.userName || localUserName || "User");
 
   return (
-    <main className="max-w-300 m-auto px-5 lg:px-0 py-8 flex flex-col gap-12 min-h-screen">
-      <div className="flex items-center justify-between">
+    <main className="max-w-300 m-auto px-4 lg:px-0 py-6 lg:py-8 pb-24 lg:pb-12 flex flex-col gap-8 lg:gap-12 min-h-screen">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div className="flex items-center gap-2 text-sm text-gray-500">
           <NavLink to="/" className="hover:text-black transition">
             {t('header.home')}
@@ -92,13 +92,13 @@ export default function Profile() {
         </p>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-16 items-start">
-        <aside className="w-full lg:w-64 flex flex-col gap-6 shrink-0 select-none">
-          <div className="flex flex-col gap-2">
-            <h3 className="text-base font-bold text-gray-900">
+      <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-start">
+        <aside className="w-full lg:w-64 flex lg:flex-col gap-4 lg:gap-6 shrink-0 select-none overflow-x-auto pb-2 lg:pb-0">
+          <div className="flex flex-col gap-2 min-w-44 lg:min-w-0">
+            <h3 className="text-sm lg:text-base font-bold text-gray-900">
               {t('profile.manageMyAccount')}
             </h3>
-            <div className="flex flex-col gap-2 pl-6 text-sm">
+            <div className="flex flex-col gap-2 pl-4 lg:pl-6 text-xs lg:text-sm">
               <span
                 onClick={() => setActiveTab("profile")}
                 className={`cursor-pointer transition ${
@@ -132,11 +132,11 @@ export default function Profile() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-2">
-            <h3 className="text-base font-bold text-gray-900">
+          <div className="flex flex-col gap-2 min-w-44 lg:min-w-0">
+            <h3 className="text-sm lg:text-base font-bold text-gray-900">
               {t('header.myOrder')}
             </h3>
-            <div className="flex flex-col gap-2 pl-6 text-sm">
+            <div className="flex flex-col gap-2 pl-4 lg:pl-6 text-xs lg:text-sm">
               <span
                 onClick={() => setActiveTab("returns")}
                 className={`cursor-pointer transition ${
@@ -160,10 +160,10 @@ export default function Profile() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 min-w-32 lg:min-w-0">
             <h3
               onClick={() => setActiveTab("wishlist")}
-              className={`text-base font-bold cursor-pointer transition ${
+              className={`text-sm lg:text-base font-bold cursor-pointer transition ${
                 activeTab === "wishlist"
                   ? "text-[#DB4444]"
                   : "text-gray-900 hover:text-[#DB4444]"
@@ -174,8 +174,8 @@ export default function Profile() {
           </div>
         </aside>
 
-        <div className="flex-1 w-full bg-white shadow-sm border border-gray-100 rounded-sm p-8 sm:p-12">
-          <h2 className="text-xl font-semibold text-[#DB4444] mb-6">
+        <div className="flex-1 w-full bg-white shadow-sm border border-gray-100 rounded-xl p-5 sm:p-8 lg:p-12">
+          <h2 className="text-lg lg:text-xl font-semibold text-[#DB4444] mb-6">
             {t('profile.editYourProfile')}
           </h2>
 

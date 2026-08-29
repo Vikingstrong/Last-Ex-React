@@ -501,7 +501,7 @@ export default function Catalog() {
       <button
         type="button"
         onClick={scrollToTop}
-        className="fixed bottom-8 right-8 z-40 w-11 h-11 rounded-full bg-[#F5F5F5] hover:bg-gray-200 border border-gray-200 flex items-center justify-center shadow-md transition cursor-pointer"
+        className="fixed bottom-20 lg:bottom-8 right-6 lg:right-8 z-30 w-11 h-11 rounded-full bg-[#F5F5F5] hover:bg-gray-200 border border-gray-200 flex items-center justify-center shadow-md transition cursor-pointer"
         aria-label="Scroll to top"
       >
         <ArrowUp className="w-5 h-5 text-gray-800" />

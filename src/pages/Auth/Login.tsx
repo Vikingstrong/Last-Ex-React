@@ -70,9 +70,9 @@ export default function Login() {
                     <h1 className="text-2xl lg:text-5xl font-medium">{t('auth.loginTitle')}</h1>
                     <p>{t('auth.enterDetails')}</p>
                 </div>
-                <form onSubmit={handleSubmit(submit)} className="flex flex-col gap-5">
-                    <TextField {...register("userName")} required sx={{ width: 400 }} label={t('auth.name')} />
-                    <TextField {...register("password")} type="password" required sx={{ width: 400 }} label={t('auth.password')} />
+                <form onSubmit={handleSubmit(submit)} className="flex flex-col gap-5 w-full max-w-sm sm:max-w-md">
+                    <TextField {...register("userName")} required sx={{ width: '100%' }} label={t('auth.name')} />
+                    <TextField {...register("password")} type="password" required sx={{ width: '100%' }} label={t('auth.password')} />
                     <p className="py-3 text-red-600 font-semibold self-center cursor-pointer">{t('auth.forgetPassword')}</p>
                     <button 
                         type="submit" 

@@ -21,9 +21,9 @@ function Model(props:any){
 
 export default function IphoneModel() {
     return (
-        <div className='w-1/2 h-100'>
-            <Canvas camera={{ position: [1, 0, 0], fov: 70 }}>
-                <Stage environment="city" intensity={3}>
+        <div className='w-full h-full max-w-full min-w-0 overflow-hidden flex items-center justify-center'>
+            <Canvas camera={{ position: [-1, 0, 0], fov: 70 }} className="w-full h-full">
+                <Stage environment="city" intensity={20}>
                     <Model scale={1.3} />
                 </Stage>
             </Canvas>
