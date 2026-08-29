@@ -1,25 +1,45 @@
-import { Eye, Heart, Star } from "lucide-react";
+import { Eye, Heart, Star, Check } from "lucide-react";
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import type { IProduct } from "../../reducer/productSlice";
+import { addProductToCart } from "../../reducer/cartSlice";
+import type { AppDispatch } from "../../store/store";
 
 interface Props {
   product: IProduct;
 }
 
 export default function ProductCard({ product }: Props) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const [isAdded, setIsAdded] = useState(false);
 
   const discountPercent =
     product.hasDiscount && product.price > 0 && product.discountPrice > 0
       ? Math.round(((product.price - product.discountPrice) / product.price) * 100)
       : null;
 
-  const reviewCount = product.quantity
+  const reviewCount = product.quantity || 0;
   const isNew = !product.hasDiscount && product.id % 3 === 0;
 
   const handleProductClick = () => {
     localStorage.setItem("selectedProduct", JSON.stringify(product));
     navigate(`/product/${product.id}`);
+  };
+
+  const handleAddToCart = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+    await dispatch(addProductToCart(product.id));
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 1500);
   };
 
   return (
@@ -65,18 +85,37 @@ export default function ProductCard({ product }: Props) {
           src={`https://store-api.softclub.tj/images/${product.image || product.images?.[0]?.images || ""}`}
           alt={product.productName}
           onError={(e) => {
-            (e.target as HTMLElement).style.opacity = "0.5";
+            const target = e.currentTarget;
+            if (!target.dataset.triedFallback) {
+              target.dataset.triedFallback = "true";
+              if (target.src.includes("/images/") && !target.src.includes("/swagger/images/")) {
+                target.src = target.src.replace("/images/", "/swagger/images/");
+              } else if (target.src.includes("/swagger/images/")) {
+                target.src = target.src.replace("/swagger/images/", "/images/");
+              }
+            } else {
+              target.style.opacity = "0.5";
+            }
           }}
         />
 
         <button
           type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-          className="absolute bottom-0 left-0 right-0 bg-black text-white text-center py-2.5 font-medium text-sm translate-y-full group-hover:translate-y-0 transition-transform duration-300 cursor-pointer hover:bg-gray-900"
+          onClick={handleAddToCart}
+          className={`absolute bottom-0 left-0 right-0 py-2.5 font-medium text-sm transition-all duration-300 cursor-pointer flex items-center justify-center gap-1.5 ${
+            isAdded
+              ? "bg-emerald-600 text-white translate-y-0"
+              : "bg-black text-white translate-y-full group-hover:translate-y-0 hover:bg-gray-900"
+          }`}
         >
-          Add To Cart
+          {isAdded ? (
+            <>
+              <Check className="w-4 h-4" />
+              <span>Добавлено!</span>
+            </>
+          ) : (
+            <span>{t('home.addToCart')}</span>
+          )}
         </button>
       </div>
 
@@ -110,25 +149,10 @@ export default function ProductCard({ product }: Props) {
             <Star className="w-4 h-4 fill-[#FFAD33]" />
             <Star className="w-4 h-4 fill-[#FFAD33]" />
           </div>
-          <span className="text-xs text-gray-500 font-semibold">
+          <span className="text-xs font-semibold text-gray-500">
             ({reviewCount})
           </span>
         </div>
-
-        {/* Color indicator if product has color */}
-        {product.color && (
-          <div className="flex items-center gap-1.5 pt-0.5">
-            <span
-              className="w-4 h-4 rounded-full border-2 border-white ring-1 ring-black shadow-xs"
-              style={{ backgroundColor: product.color }}
-              title={product.color}
-            />
-            <span
-              className="w-4 h-4 rounded-full border-2 border-white ring-1 ring-gray-300 shadow-xs bg-[#DB4444]"
-              title="Red variant"
-            />
-          </div>
-        )}
       </div>
     </div>
   );

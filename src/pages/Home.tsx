@@ -5,6 +5,7 @@ import 'swiper/css/navigation'
 
 import { NavLink } from "react-router"
 import { useDispatch, useSelector } from "react-redux"
+import { useTranslation } from 'react-i18next'
 import IphoneModel from "../components/3DModels/IphoneModel"
 import PrimaryButton from "../components/ui/PrimaryButton"
 import { type AppDispatch, type RootState } from "../store/store"
@@ -21,7 +22,7 @@ import appleLogo from "../assets/main/appleLogo.png"
 import boombox from '../assets/main/boomBox.png'
 
 export default function Home() {
-  
+  const { t } = useTranslation()
   const productsStore = useSelector((store:RootState) => store.products)
   const catalogStore = useSelector((store:RootState) => store.catalog)
   const dispatch = useDispatch<AppDispatch>()
@@ -29,8 +30,7 @@ export default function Home() {
   useEffect(() => {
     dispatch(getProducts({pageNumber: 1, pageSize: 10}))
     dispatch(getCategories())
-  }, [])
-  console.log(productsStore)
+  }, [dispatch])
 
   return (
     <>
@@ -54,7 +54,9 @@ export default function Home() {
                   <p>iPhone 17 Series</p>
                 </div>
                 <h1 className="text-6xl font-semibold">Up to 10% off Voucher</h1>
-                <p className="text-2xl font-semibold">Shop Now</p>
+                <NavLink to="/catalog" className="text-2xl font-semibold hover:underline">
+                  {t('header.shopNow')}
+                </NavLink>
               </div>
               <IphoneModel/>
             </div>
@@ -68,7 +70,9 @@ export default function Home() {
                   <p>MacBook M5 Pro Series</p>
                 </div>
                 <h1 className="text-6xl font-semibold">Up to 25% off Voucher</h1>
-                <p className="text-2xl font-semibold">Shop Now</p>
+                <NavLink to="/catalog" className="text-2xl font-semibold hover:underline">
+                  {t('header.shopNow')}
+                </NavLink>
               </div>
               <MacBookModel/>
             </div>
@@ -77,7 +81,7 @@ export default function Home() {
       </section>
 
       <section className="flex flex-col gap-10 max-w-300 m-auto py-10">
-        <h1 className="text-5xl font-bold">Flash Sales</h1>
+        <h1 className="text-5xl font-bold">{t('home.flashSales')}</h1>
         {productsStore.loadings.loadingProducts ? <SceletonLoader/> : (
           <Swiper
             modules={[Autoplay]}
@@ -99,13 +103,13 @@ export default function Home() {
         )}
         <div className='flex justify-center w-full'>
           <NavLink to="/catalog">
-            <PrimaryButton text="View All Products"/>
+            <PrimaryButton text={t('home.viewAllProducts')}/>
           </NavLink>
         </div>
       </section>
 
       <section className='flex max-w-300 m-auto py-10 flex-col gap-10'>
-        <h1 className='text-5xl font-bold'>Browse By Category</h1>
+        <h1 className='text-5xl font-bold'>{t('home.browseByCategory')}</h1>
         {catalogStore.loaders.categoryLoading ? (<SceletonLoader/>) : (
           <Swiper
             spaceBetween={20}
@@ -125,9 +129,9 @@ export default function Home() {
 
       <section className='flex flex-col gap-10 max-w-300 m-auto py-10'>
         <div className='flex justify-between w-full items-center'>
-          <h1 className='text-4xl font-bold'>Best Selling Products</h1>
+          <h1 className='text-4xl font-bold'>{t('home.bestSelling')}</h1>
           <NavLink to="/catalog">
-            <PrimaryButton text='View All'/>
+            <PrimaryButton text={t('home.viewAll')}/>
           </NavLink>
         </div>
         {productsStore.loadings.loadingProducts ? <SceletonLoader/> : (
@@ -154,27 +158,28 @@ export default function Home() {
 
       <section className='flex justify-between gap-15 p-15 items-center my-10 max-w-300 m-auto rounded-xl bg-black'>
         <div className='flex flex-col items-start gap-5 w-1/2'>
-          <p className='text-lg font-semibold text-[#00b94a]'>Categories</p>
-          <h2 className='text-[56px] font-semibold text-white'>Enhance Your Music Experience</h2>
-          <Button
-            variant='contained'
-            
-            sx={{
-              fontWeight: 700,
-              width: 180,
-              py: 2,
-              backgroundColor: '#00FF66',
-              color: 'black',
-              fontSize: 16,
-              transition: 'all 0.3s ease',
-              '&:hover':{
-                backgroundColor:"#00b94a",
-                color:'white'
-              }
-            }}
-          >
-            Buy now
-          </Button>
+          <p className='text-lg font-semibold text-[#00b94a]'>{t('home.categories')}</p>
+          <h2 className='text-[56px] font-semibold text-white'>{t('home.enhanceMusic')}</h2>
+          <NavLink to="/catalog">
+            <Button
+              variant='contained'
+              sx={{
+                fontWeight: 700,
+                width: 180,
+                py: 2,
+                backgroundColor: '#00FF66',
+                color: 'black',
+                fontSize: 16,
+                transition: 'all 0.3s ease',
+                '&:hover':{
+                  backgroundColor:"#00b94a",
+                  color:'white'
+                }
+              }}
+            >
+              {t('home.buyNow')}
+            </Button>
+          </NavLink>
         </div>
         <img className='drop-shadow-[0_0_35px_#ffffff]' src={boombox} alt="" />
       </section>

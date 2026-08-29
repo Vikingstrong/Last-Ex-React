@@ -99,6 +99,69 @@ export const getProductById = createAsyncThunk<ISingleProductResponse, number | 
     }
 )
 
+export const addProduct = createAsyncThunk(
+    'productSlice/addProduct',
+    async(formData: FormData, { rejectWithValue, dispatch }) => {
+        try {
+            const resp = await axiosInstance.post('/Product/add-product', formData)
+            dispatch(getProducts({ pageNumber: 1, pageSize: 20 }))
+            return resp.data
+        } catch (error: any) {
+            console.log(error)
+            return rejectWithValue(error.response?.data || error.message)
+        }
+    }
+)
+
+export const deleteProduct = createAsyncThunk(
+    'productSlice/deleteProduct',
+    async(id: number | string, { rejectWithValue, dispatch }) => {
+        try {
+            const resp = await axiosInstance.delete(`/Product/delete-product?id=${id}`)
+            dispatch(getProducts({ pageNumber: 1, pageSize: 20 }))
+            return resp.data
+        } catch (error: any) {
+            console.log(error)
+            return rejectWithValue(error.response?.data || error.message)
+        }
+    }
+)
+
+export const updateProduct = createAsyncThunk(
+    'productSlice/updateProduct',
+    async(productData: any, { rejectWithValue, dispatch }) => {
+        try {
+            const resp = await axiosInstance.put('/Product/update-product', null, {
+                params: productData
+            })
+            dispatch(getProducts({ pageNumber: 1, pageSize: 10 }))
+            return resp.data
+        } catch (error: any) {
+            console.log(error)
+            return rejectWithValue(error.response?.data || error.message)
+        }
+    }
+)
+
+export const addImageToProduct = createAsyncThunk(
+    'productSlice/addImageToProduct',
+    async({ productId, files }: { productId: number | string, files: FileList }, { rejectWithValue, dispatch }) => {
+        try {
+            const formData = new FormData()
+            formData.append('ProductId', String(productId))
+            for (let i = 0; i < files.length; i++) {
+                formData.append('Files', files[i])
+            }
+            const resp = await axiosInstance.post('/Product/add-image-to-product', formData)
+            dispatch(getProducts({ pageNumber: 1, pageSize: 10 }))
+            return resp.data
+        } catch (error: any) {
+            console.log(error)
+            return rejectWithValue(error.response?.data || error.message)
+        }
+    }
+)
+
 interface LoadingTypes{
     loadingProducts: boolean,
     loadingBrands: boolean,
@@ -115,7 +178,11 @@ interface InitialType{
     minMaxPrice: {
         minPrice: number;
         maxPrice: number;
-    }
+    },
+    totalRecord: number,
+    totalPage: number,
+    pageNumber: number,
+    pageSize: number
 }
 const initialState:InitialType = {
     loadings: {
@@ -132,7 +199,11 @@ const initialState:InitialType = {
     minMaxPrice: {
         minPrice: 0,
         maxPrice: 1000
-    }
+    },
+    totalRecord: 0,
+    totalPage: 1,
+    pageNumber: 1,
+    pageSize: 10
 }
 export const productSlice = createSlice({
     name: 'products',
@@ -152,6 +223,24 @@ export const productSlice = createSlice({
                 state.dataColors = action.payload?.data?.colors || []
                 if (action.payload?.data?.minMaxPrice) {
                     state.minMaxPrice = action.payload.data.minMaxPrice
+                }
+                if (action.payload?.totalRecord !== undefined) {
+                    state.totalRecord = action.payload.totalRecord
+                } else if ((action.payload as any)?.data?.totalRecord !== undefined) {
+                    state.totalRecord = (action.payload as any).data.totalRecord
+                } else if (state.totalRecord === 0 && action.payload?.data?.products?.length) {
+                    state.totalRecord = action.payload.data.products.length
+                }
+                if (action.payload?.totalPage !== undefined) {
+                    state.totalPage = action.payload.totalPage
+                } else if ((action.payload as any)?.data?.totalPage !== undefined) {
+                    state.totalPage = (action.payload as any).data.totalPage
+                }
+                if (action.payload?.pageNumber !== undefined) {
+                    state.pageNumber = action.payload.pageNumber
+                }
+                if (action.payload?.pageSize !== undefined) {
+                    state.pageSize = action.payload.pageSize
                 }
             })
             .addCase(getProducts.rejected, (state) => {

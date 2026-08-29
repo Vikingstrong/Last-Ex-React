@@ -1,12 +1,15 @@
 import axios from "axios";
 
-
 const axiosInstance = axios.create({
     baseURL: import.meta.env.VITE_BASE_URL
 })
 
 function getToken(){
-    return localStorage.getItem('token')
+    const token = localStorage.getItem('token')
+    if (!token || token === 'undefined' || token === 'null') {
+        return null
+    }
+    return token
 }
 
 axiosInstance.interceptors.request.use((config) => {
@@ -16,6 +19,5 @@ axiosInstance.interceptors.request.use((config) => {
     }
     return config
 })
-
 
 export default axiosInstance

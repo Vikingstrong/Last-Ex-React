@@ -1,19 +1,23 @@
 import { Send } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { NavLink } from 'react-router'
 
 export default function Footer() {
+  const { t } = useTranslation()
+
   return (
     <footer className="bg-black text-white pt-16 pb-6 mt-20">
       <div className="max-w-300 m-auto px-5 lg:px-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
         
         {/* Column 1: Exclusive */}
         <div className="flex flex-col gap-4">
-          <h3 className="text-2xl font-bold tracking-wide">Exclusive</h3>
-          <h4 className="text-xl font-medium">Subscribe</h4>
-          <p className="text-sm text-gray-300">Get 10% off your first order</p>
+          <h3 className="text-2xl font-bold tracking-wide">{t('footer.exclusive')}</h3>
+          <h4 className="text-xl font-medium">{t('footer.subscribe')}</h4>
+          <p className="text-sm text-gray-300">{t('footer.getDiscount')}</p>
           <div className="relative mt-1 max-w-60">
             <input
               type="email"
-              placeholder="Enter your email"
+              placeholder={t('footer.enterEmail')}
               className="w-full bg-transparent border border-white rounded py-2.5 pl-4 pr-10 text-sm text-white placeholder-gray-400 outline-none focus:border-red-400 transition"
             />
             <button
@@ -28,33 +32,34 @@ export default function Footer() {
 
         {/* Column 2: Support */}
         <div className="flex flex-col gap-4">
-          <h4 className="text-xl font-medium">Support</h4>
+          <h4 className="text-xl font-medium">{t('footer.support')}</h4>
           <p className="text-sm text-gray-300 leading-relaxed">
-            111 Bijoy sarani, Dhaka, DH 1515, Bangladesh.
+            {t('footer.addressText')}
           </p>
           <p className="text-sm text-gray-300">exclusive@gmail.com</p>
-          <p className="text-sm text-gray-300">+88015-88888-9999</p>
+          <p className="text-sm text-gray-300">+992 000 00 00</p>
         </div>
 
-        {/* Column 3: Account (without router/link tags as requested) */}
+        {/* Column 3: Account */}
         <div className="flex flex-col gap-4">
-          <h4 className="text-xl font-medium">Account</h4>
+          <h4 className="text-xl font-medium">{t('footer.account')}</h4>
           <div className="flex flex-col gap-3 text-sm text-gray-300">
-            <span className="hover:text-white cursor-pointer transition">My Account</span>
-            <span className="hover:text-white cursor-pointer transition">Cart</span>
-            <span className="hover:text-white cursor-pointer transition">Wishlist</span>
-            <span className="hover:text-white cursor-pointer transition">Shop</span>
+            <NavLink to="/profile" className="hover:text-white transition">{t('footer.myAccount')}</NavLink>
+            <NavLink to="/login" className="hover:text-white transition">{t('footer.loginRegister')}</NavLink>
+            <span className="hover:text-white cursor-pointer transition">{t('footer.cart')}</span>
+            <span className="hover:text-white cursor-pointer transition">{t('footer.wishlist')}</span>
+            <NavLink to="/catalog" className="hover:text-white transition">{t('footer.shop')}</NavLink>
           </div>
         </div>
 
-        {/* Column 4: Quick Link (without router/link tags as requested) */}
+        {/* Column 4: Quick Link */}
         <div className="flex flex-col gap-4">
-          <h4 className="text-xl font-medium">Quick Link</h4>
+          <h4 className="text-xl font-medium">{t('footer.quickLink')}</h4>
           <div className="flex flex-col gap-3 text-sm text-gray-300">
-            <span className="hover:text-white cursor-pointer transition">Privacy Policy</span>
-            <span className="hover:text-white cursor-pointer transition">Terms Of Use</span>
-            <span className="hover:text-white cursor-pointer transition">FAQ</span>
-            <span className="hover:text-white cursor-pointer transition">Contact</span>
+            <span className="hover:text-white cursor-pointer transition">{t('footer.privacyPolicy')}</span>
+            <span className="hover:text-white cursor-pointer transition">{t('footer.termsOfUse')}</span>
+            <span className="hover:text-white cursor-pointer transition">{t('footer.faq')}</span>
+            <NavLink to="/contact" className="hover:text-white transition">{t('footer.contact')}</NavLink>
           </div>
         </div>
 
@@ -89,7 +94,7 @@ export default function Footer() {
 
       {/* Copyright Bar */}
       <div className="border-t border-[#1F1F1F] mt-16 pt-6 text-center text-gray-500 text-sm">
-        <p>&copy; Copyright Rimel 2022. All right reserved</p>
+        <p>{t('footer.copyright')}</p>
       </div>
     </footer>
   )

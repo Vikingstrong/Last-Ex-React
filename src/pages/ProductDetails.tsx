@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { NavLink, useParams } from "react-router";
+import { NavLink, useParams, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 import { Skeleton } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
 
 import {
-  Heart,
   Minus,
   Plus,
   RefreshCw,
@@ -17,9 +17,12 @@ import {
 
 import { type AppDispatch, type RootState } from "../store/store";
 import { getProductById, getProducts, type IProduct } from "../reducer/productSlice";
+import { addProductToCart } from "../reducer/cartSlice";
 import ProductCard from "../components/ui/ProductCard";
 
 export default function ProductDetails() {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch<AppDispatch>();
   const productsStore = useSelector((store: RootState) => store.products);
@@ -251,6 +254,7 @@ export default function ProductDetails() {
               <div className="flex items-center border border-gray-300 rounded overflow-hidden">
                 <button
                   type="button"
+                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                   className="px-3 py-2 text-gray-700 hover:bg-gray-100 transition cursor-pointer"
                 >
                   <Minus className="w-4 h-4" />
@@ -267,20 +271,40 @@ export default function ProductDetails() {
                 </button>
               </div>
 
-
               <button
                 type="button"
+                onClick={async () => {
+                  const token = localStorage.getItem('token');
+                  if (!token) {
+                    navigate('/login');
+                    return;
+                  }
+                  if (activeProduct?.id) {
+                    await dispatch(addProductToCart(activeProduct.id));
+                    navigate('/cart');
+                  }
+                }}
                 className="flex-1 bg-[#DB4444] text-white py-2.5 px-6 rounded font-semibold text-sm hover:bg-[#c0392b] transition cursor-pointer"
               >
-                Buy Now
+                {t('product.buyNow')}
               </button>
-
 
               <button
                 type="button"
-                className="p-2.5 border border-gray-300 rounded hover:text-[#DB4444] hover:border-[#DB4444] text-gray-700 transition cursor-pointer"
+                onClick={async () => {
+                  const token = localStorage.getItem('token');
+                  if (!token) {
+                    navigate('/login');
+                    return;
+                  }
+                  if (activeProduct?.id) {
+                    await dispatch(addProductToCart(activeProduct.id));
+                    alert("Товар добавлен в корзину!");
+                  }
+                }}
+                className="p-2.5 border border-gray-300 rounded hover:text-[#DB4444] hover:border-[#DB4444] text-gray-700 transition cursor-pointer font-semibold text-xs px-4"
               >
-                <Heart className="w-5 h-5" />
+                {t('product.addToCart')}
               </button>
             </div>
 
